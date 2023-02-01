@@ -41,12 +41,6 @@ function CraftItem(uid, recipe) {
       usersCollection.doc(uid).set({
         inventory: newInventory
       }, {merge: true})
-      .then(response => {
-        return({
-          status: 200,
-          description: "Request was recieved and processed"
-        })
-      })
       .catch(error => {
         return({
           status: 500,
@@ -57,6 +51,10 @@ function CraftItem(uid, recipe) {
 
     })
   }) 
+  return({
+    status: 200,
+    description: "Request was recieved and processed"
+  })
 }
 
 app.get('/', (req, res) => {
@@ -68,7 +66,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/CRAFT', (req, res) => {
-  res.send(JSON.stringify(CraftItem(req.query.uid, req.query.recipe)))
+  // JSON.stringify(CraftItem(req.query.uid, req.query.recipe))
+  res.send("You have crafted an item")
 })
 
 app.listen(8000)
