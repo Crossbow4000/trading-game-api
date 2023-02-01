@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 
   if(req.query.action == "CRAFT") {
     if(!req.query.uid) {
+      console.log(req.query)
       res.send({
         status: 400,
         description: "Please provide a valid uid parameter"
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
       return false
     }
     if(!req.query.recipe) {
+      console.log(req.query)
       res.send({
         status: 400,
         description: "Please provide a valid recipe parameter"
@@ -67,20 +69,6 @@ app.get('/', (req, res) => {
   
   
       })
-      .catch(error => {
-        res.send({
-          status: 400,
-          description: "Please provide a valid recipe parameter"
-        })
-        return false
-      })
-    })
-    .catch(error => {
-      res.send({
-        status: 400,
-        description: "Please provide a valid uid parameter"
-      })
-      return false
     })
 
 
