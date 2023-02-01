@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
 
 
   if(req.query.action == "CRAFT") {
-    res.send(JSON.stringify(usersCollection.get())
+    res.send(JSON.stringify(usersCollection.get()))
   } else {
     res.send({
       status: 404,
