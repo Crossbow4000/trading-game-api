@@ -83,6 +83,7 @@ app.get('/', (req, res) => {
           return false
         }
         if(!craftingRecipe) {
+          console.log(recipiesSnapshot.docs)
           res.send({
             status: 400,
             description: "Invalid recipe"
