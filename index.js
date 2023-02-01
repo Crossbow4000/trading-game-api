@@ -19,41 +19,12 @@ app.get('/', (req, res) => {
     
     
 
-    usersCollection.get().then(usersSnapshot => {
-      recipesCollection.get().then(recipiesSnapshot => {
+    usersCollection.doc(uid).get().then(usersSnapshot => {
+      recipesCollection.doc(recipe).get().then(recipiesSnapshot => {
   
   
-        var user;
-        var craftingRecipe;
-        
-        for(let i = 0; i < usersSnapshot.docs.length; i++) {
-          console.log(usersSnapshot.docs[i].data().uid, req.query.uid, String(usersSnapshot.docs[i].data().uid)==String(req.query.uid))
-          if(String(usersSnapshot.docs[i].data().uid) == String(req.query.uid)) {
-            console.log("Match found!!!")
-            user = usersSnapshot.docs[i].data()
-          }
-        }
-        for(let i = 0; i < recipiesSnapshot.docs.length; i++) {
-          if(recipiesSnapshot.docs[i].data().id == req.query.recipe) {
-            craftingRecipe = recipiesSnapshot.docs[i].data()
-          }
-        }
-        
-        if(!user) {
-          res.send({
-            status: 400,
-            description: "Invalid uid parameter"
-          })
-          return false
-        }
-        if(!craftingRecipe) {
-          console.log(recipiesSnapshot.docs)
-          res.send({
-            status: 400,
-            description: "Invalid recipe"
-          })
-          return false
-        }
+        var user = usersSnapshot.data();
+        var craftingRecipe = recipiesSnapshot.data();
   
         let newInventory = user.inventory;
         for(let i = 0; i < newInventory.length; i++) {
