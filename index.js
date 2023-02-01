@@ -19,8 +19,8 @@ app.get('/', (req, res) => {
     
     
 
-    usersCollection.doc(uid).get().then(usersSnapshot => {
-      recipesCollection.doc(recipe).get().then(recipiesSnapshot => {
+    usersCollection.doc(req.query.uid).get().then(usersSnapshot => {
+      recipesCollection.doc(req.query.recipe).get().then(recipiesSnapshot => {
   
   
         var user = usersSnapshot.data();
