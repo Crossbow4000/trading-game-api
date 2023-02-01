@@ -23,9 +23,20 @@ app.get('/', (req, res) => {
       recipesCollection.get().then(recipiesSnapshot => {
   
   
-        const user = usersSnapshot.docs[req.query.uid]
-        const craftingRecipe = recipiesSnapshot.docs[req.query.recipe]
-  
+        var user;
+        var craftingRecipe;
+        
+        for(let i = 0; i < usersSnapshot.docs.length; i++) {
+          if(usersSnapshot.docs[i].data().uid == req.query.uid) {
+            user = usersSnapshot.docs[i].data()
+          }
+        }
+        for(let i = 0; i < recipiesSnapshot.docs.length; i++) {
+          if(recipiesSnapshot.docs[i].data().id == req.query.recipe) {
+            craftingRecipe = recipiesSnapshot.docs[i].data()
+          }
+        }
+        
         if(!user) {
           console.log(usersSnapshot.docs)
           res.send({
