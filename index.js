@@ -1,7 +1,8 @@
 const admin = require('firebase-admin')
 const key = require('./key.json')
 admin.initializeApp({
-  credential: admin.credential.cert(key)
+  credential: admin.credential.cert(key),
+  databaseURL: "https://ultimate-tag-29669-default-rtdb.firebaseio.com"
 });
 
 const firestore = admin.firestore()
@@ -43,9 +44,18 @@ app.get('/', (req, res) => {
   
         var user = usersSnapshot.data();
         var craftingRecipe = recipiesSnapshot.data();
-  
+
         let newInventory = user.inventory;
         for(let i = 0; i < newInventory.length; i++) {
+          if(craftingRecipe.recipe[i] < 0) {
+            if(abs(craftingRecipe.recipe[i]) > newInventory[i]) {
+              res.send({
+                status: 500,
+                description: "The user did not have enough"
+              })
+              return false
+            }
+          }
           newInventory[i] += craftingRecipe.recipe[i]
         }
 
