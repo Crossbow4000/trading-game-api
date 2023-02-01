@@ -52,7 +52,6 @@ app.get('/', (req, res) => {
           inventory: newInventory
         }, {merge: true})
         .then(response => {
-          console.log(uid, recipe)
           res.send({
             status: 200,
             description: "Request was recieved and processed"
