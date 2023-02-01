@@ -79,19 +79,21 @@ app.get('/', (req, res) => {
             status: 400,
             description: "Invalid uid parameter"
           })
+          return false
         }
         if(!craftingRecipe) {
           res.send({
             status: 400,
             description: "Invalid recipe"
           })
+          return false
         }
   
         let newInventory = user.inventory;
         for(let i = 0; i < newInventory.length; i++) {
           newInventory[i] += craftingRecipe.recipe[i]
         }
-  
+
         usersCollection.doc(uid).set({
           inventory: newInventory
         }, {merge: true})
@@ -101,12 +103,14 @@ app.get('/', (req, res) => {
             status: 200,
             description: "Request was recieved and processed"
           })
+          return true
         })
         .catch(error => {
           res.send({
             status: 500,
             description: `There was an internal server error    :::    ${error}`
           })
+          return false
         })
   
   
