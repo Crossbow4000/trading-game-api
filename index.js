@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
           newInventory[i] += craftingRecipe.recipe[i]
         }
 
-        usersCollection.doc(uid).set({
+        usersCollection.doc(req.query.uid).set({
           inventory: newInventory
         }, {merge: true})
         .then(response => {
