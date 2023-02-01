@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
         var craftingRecipe;
         
         for(let i = 0; i < usersSnapshot.docs.length; i++) {
-          console.log(usersSnapshot.docs[i].data().uid, req.query.uid)
+          console.log(usersSnapshot.docs[i].data().uid, req.query.uid, usersSnapshot.docs[i].data().uid==req.query.uid)
           if(usersSnapshot.docs[i].data().uid == req.query.uid) {
             console.log("Match found!!!")
             user = usersSnapshot.docs[i].data()
