@@ -14,6 +14,20 @@ const app = require('express')()
 
 app.get('/', (req, res) => {
 
+  if(!req.query.uid) {
+    res.send({
+      status: 400,
+      description: "Please provide a valid uid parameter"
+    })
+    return false
+  }
+  if(!req.query.recipe) {
+    res.send({
+      status: 400,
+      description: "Please provide a valid recipe parameter"
+    })
+    return false
+  }
 
   if(req.query.action == "CRAFT") {
     
@@ -57,6 +71,7 @@ app.get('/', (req, res) => {
           status: 400,
           description: "Please provide a valid recipe parameter"
         })
+        return false
       })
     })
     .catch(error => {
@@ -64,6 +79,7 @@ app.get('/', (req, res) => {
         status: 400,
         description: "Please provide a valid uid parameter"
       })
+      return false
     })
 
 
