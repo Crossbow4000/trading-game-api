@@ -13,9 +13,50 @@ const recipesCollection = firestore.collection('recipes')
 const app = require('express')()
 
 function CraftItem(uid, recipe) {
-  recipesCollection.get().then(recipiesSnapshot => {
-    const recipies = recipiesSnapshot.docs
-  })
+  usersCollection.get().then(usersSnapshot => {
+    recipesCollection.get().then(recipiesSnapshot => {
+
+
+      const user = usersSnapshot.docs[uid]
+      const craftingRecipe = recipiesSnapshot.docs[recipe]
+
+      if(!user) {
+        return({
+          status: 400,
+          description: "Invalid uid parameter"
+        })
+      }
+      if(!craftingRecipe) {
+        return({
+          status: 400,
+          description: "Invalid recipe"
+        })
+      }
+
+      let newInventory = user.inventory;
+      for(let i = 0; i < newInventory.length; i++) {
+        newInventory[i] += craftingRecipe.recipe[i]
+      }
+
+      usersCollection.doc(uid).set({
+        inventory: newInventory
+      }, {merge: true})
+      .then(response => {
+        return({
+          status: 200,
+          description: "Request was recieved and processed"
+        })
+      })
+      .catch(error => {
+        return({
+          status: 500,
+          description: `There was an internal server error    :::    ${error}`
+        })
+      })
+
+
+    })
+  }) 
 }
 
 app.get('/', (req, res) => {
@@ -27,11 +68,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/CRAFT', (req, res) => {
-  var resObject = {
-    status: 200,
-    description: "The request was recieved and succesfully proccessed"
-  }
-  res.send(JSON.stringify(resObject))
+  res.send(JSON.stringify(CraftItem(req.query.uid, req.query.recipe)))
 })
 
 app.listen(8000)
