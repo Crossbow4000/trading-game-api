@@ -62,14 +62,19 @@ function CraftItem(uid, recipe) {
 }
 
 app.get('/', (req, res) => {
+
+
+
   if(req.query.action == "CRAFT") {
-    res.send(JSON.stringify(CraftItem(req.query.uid, req.query.recipe)))
+    res.send(JSON.stringify(usersCollection.get())
   } else {
     res.send({
       status: 404,
       description: "Please provide a valid action"
     })
   }
+
+
 })
 app.listen(8000)
 
