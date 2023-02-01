@@ -61,18 +61,15 @@ function CraftItem(uid, recipe) {
 }
 
 app.get('/', (req, res) => {
-  const resObject = {
-    status: 404,
-    description: "This API endpoint does not exist"
+  if(req.query.action == "CRAFT") {
+    res.send(JSON.stringify(CraftItem(req.query.uid, req.query.recipe)))
+  } else {
+    res.send({
+      status: 404,
+      description: "Please provide a valid action"
+    })
   }
-  res.send(JSON.stringify(resObject))
 })
-
-app.get('/CRAFT', (req, res) => {
-  
-  res.send(JSON.stringify(CraftItem(req.query.uid, req.query.recipe)))
-})
-
 app.listen(8000)
 
 module.exports = app
