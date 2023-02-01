@@ -52,6 +52,18 @@ app.get('/', (req, res) => {
   
   
       })
+      .catch(error => {
+        res.send({
+          status: 400,
+          description: "Please provide a valid recipe parameter"
+        })
+      })
+    })
+    .catch(error => {
+      res.send({
+        status: 400,
+        description: "Please provide a valid uid parameter"
+      })
     })
 
 
