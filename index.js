@@ -12,8 +12,7 @@ const recipesCollection = firestore.collection('recipes')
 
 const app = require('express')()
 
-function CraftItem(uid, recipe) {
-  usersCollection.get().then(snapshot => {console.log(snapshot)})
+const CraftItem = (uid, recipe) => {
   usersCollection.get().then(usersSnapshot => {
     recipesCollection.get().then(recipiesSnapshot => {
 
@@ -63,19 +62,16 @@ function CraftItem(uid, recipe) {
 
 app.get('/', (req, res) => {
 
-  usersCollection.get().then(snapshot => {
-    res.send(JSON.stringify(snapshot))
-  })
 
-  // if(req.query.action == "CRAFT") {
-  //   res.send(JSON.stringify(usersCollection.get()))
-  // } else {
-  //   res.send({
-  //     status: 404,
-  //     description: "Please provide a valid action"
-  //   })
-  // }
-
+  if(req.query.action == "CRAFT") {
+    res.send(JSON.stringify(CraftItem(req.query.uid, req.query.recipe)))
+  } else {
+    res.send({
+      status: 404,
+      description: "Please provide a valid action"
+    })
+  }
+  
 
 })
 app.listen(8000)
