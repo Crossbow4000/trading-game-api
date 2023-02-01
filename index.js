@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
         
         for(let i = 0; i < usersSnapshot.docs.length; i++) {
           console.log(usersSnapshot.docs[i].data().uid, req.query.uid, String(usersSnapshot.docs[i].data().uid)==String(req.query.uid))
-          if(String(usersSnapshot.docs[i].data().uid) == String(req.query.uid.toString())) {
+          if(String(usersSnapshot.docs[i].data().uid) == String(req.query.uid)) {
             console.log("Match found!!!")
             user = usersSnapshot.docs[i].data()
           }
