@@ -64,14 +64,64 @@ app.get('/', (req, res) => {
 
 
   if(req.query.action == "CRAFT") {
-    res.send(JSON.stringify(CraftItem(req.query.uid, req.query.recipe)))
+    
+    
+
+    usersCollection.get().then(usersSnapshot => {
+      recipesCollection.get().then(recipiesSnapshot => {
+  
+  
+        const user = usersSnapshot.docs[uid]
+        const craftingRecipe = recipiesSnapshot.docs[recipe]
+  
+        if(!user) {
+          res.send({
+            status: 400,
+            description: "Invalid uid parameter"
+          })
+        }
+        if(!craftingRecipe) {
+          res.send({
+            status: 400,
+            description: "Invalid recipe"
+          })
+        }
+  
+        let newInventory = user.inventory;
+        for(let i = 0; i < newInventory.length; i++) {
+          newInventory[i] += craftingRecipe.recipe[i]
+        }
+  
+        usersCollection.doc(uid).set({
+          inventory: newInventory
+        }, {merge: true})
+        .then(response => {
+          console.log(uid, recipe)
+          res.send({
+            status: 200,
+            description: "Request was recieved and processed"
+          })
+        })
+        .catch(error => {
+          res.send({
+            status: 500,
+            description: `There was an internal server error    :::    ${error}`
+          })
+        })
+  
+  
+      })
+    })
+
+
+
   } else {
     res.send({
       status: 404,
       description: "Please provide a valid action"
     })
   }
-  
+
 
 })
 app.listen(8000)
