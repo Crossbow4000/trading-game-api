@@ -29,6 +29,7 @@ app.get('/', (req, res) => {
         for(let i = 0; i < usersSnapshot.docs.length; i++) {
           console.log(usersSnapshot.docs[i].data().uid, req.query.uid)
           if(usersSnapshot.docs[i].data().uid == req.query.uid) {
+            console.log("Match found!!!")
             user = usersSnapshot.docs[i].data()
           }
         }
@@ -39,7 +40,6 @@ app.get('/', (req, res) => {
         }
         
         if(!user) {
-          console.log(usersSnapshot.docs)
           res.send({
             status: 400,
             description: "Invalid uid parameter"
