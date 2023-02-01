@@ -17,6 +17,7 @@ const CraftItem = (uid, recipe) => {
     recipesCollection.get().then(recipiesSnapshot => {
 
 
+      console.log(userSnapshot.docs)
       const user = usersSnapshot.docs[uid]
       const craftingRecipe = recipiesSnapshot.docs[recipe]
 
