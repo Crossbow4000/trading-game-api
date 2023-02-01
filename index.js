@@ -71,8 +71,8 @@ app.get('/', (req, res) => {
       recipesCollection.get().then(recipiesSnapshot => {
   
   
-        const user = usersSnapshot.docs[req.queryuid]
-        const craftingRecipe = recipiesSnapshot.docs[req.queryrecipe]
+        const user = usersSnapshot.docs[req.query.uid]
+        const craftingRecipe = recipiesSnapshot.docs[req.query.recipe]
   
         if(!user) {
           res.send({
