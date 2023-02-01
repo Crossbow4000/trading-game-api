@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
             if(Math.abs(craftingRecipe.recipe[i]) > newInventory[i]) {
               res.send({
                 status: 500,
-                description: "The user did not have enough"
+                description: "The user did not have enough of a certain material to complete the recipe"
               })
               return false
             }
