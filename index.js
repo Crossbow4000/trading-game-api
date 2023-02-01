@@ -13,7 +13,7 @@ const recipesCollection = firestore.collection('recipes')
 const app = require('express')()
 
 function CraftItem(uid, recipe) {
-  usersCollection.get.then(snapshot => {console.log(snapshot)})
+  usersCollection.get().then(snapshot => {console.log(snapshot)})
   usersCollection.get().then(usersSnapshot => {
     recipesCollection.get().then(recipiesSnapshot => {
 
