@@ -75,6 +75,7 @@ app.get('/', (req, res) => {
         const craftingRecipe = recipiesSnapshot.docs[req.query.recipe]
   
         if(!user) {
+          console.log(usersSnapshot.docs)
           res.send({
             status: 400,
             description: "Invalid uid parameter"
