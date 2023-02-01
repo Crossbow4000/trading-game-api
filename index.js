@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
         let newInventory = user.inventory;
         for(let i = 0; i < newInventory.length; i++) {
           if(craftingRecipe.recipe[i] < 0) {
-            if(abs(craftingRecipe.recipe[i]) > newInventory[i]) {
+            if(MATH.abs(craftingRecipe.recipe[i]) > newInventory[i]) {
               res.send({
                 status: 500,
                 description: "The user did not have enough"
