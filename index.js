@@ -16,7 +16,7 @@ const app = require('express')()
 
 app.get('/', (req, res) => {
 
-
+  console.log(req.ip)
 
   if(req.query.action == "CRAFT") {
     if(!req.query.uid) {
