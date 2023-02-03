@@ -1,6 +1,6 @@
 const admin = require('firebase-admin')
 const key = require('./key.json')
-admin.initializeApp({
+const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert(key),
   databaseURL: "https://ultimate-tag-29669-default-rtdb.firebaseio.com"
 });
@@ -99,12 +99,12 @@ app.get('/', (req, res) => {
       return false
     }
 
-    auth.createUser({
+    getAuth().createUser({
       email: req.query.email,
       password: req.query.password
     })
-    .then(credentials => {
-      console.log(credentials.uid)
+    .then(user => {
+      console.log(user.uid, user)
     })
 
   } else {
