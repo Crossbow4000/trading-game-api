@@ -79,7 +79,33 @@ app.get('/', (req, res) => {
 
   } else if(req.query.action == 'CREATEUSER') {
 
-    
+    if(!req.query.email) {
+      res.send({
+        status: 400,
+        description: "Please provide a valid email parameter"
+      })
+      return false
+    } else if(!req.query.password) {
+      res.send({
+        status: 400,
+        description: "Please provide a valid password parameter"
+      })
+      return false
+    } else if(!req.query.username) {
+      res.send({
+        status: 400,
+        description: "Please provide a valid username parameter"
+      })
+      return false
+    }
+
+    auth.createUser({
+      email: req.query.email,
+      password: req.query.password
+    })
+    .then(credentials => {
+      console.log(credentials.uid)
+    })
 
   } else {
     res.send({
