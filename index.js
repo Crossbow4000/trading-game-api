@@ -6,6 +6,7 @@ admin.initializeApp({
 });
 
 const firestore = admin.firestore()
+const auth      = admin.auth()
 
 const usersCollection = firestore.collection('users')
 const itemsCollection = firestore.collection('items')
@@ -15,9 +16,6 @@ const app = require('express')()
 
 
 app.get('/', (req, res) => {
-
-  console.log(req.ip)
-
   if(req.query.action == "CRAFT") {
     if(!req.query.uid) {
       console.log(req.query)
@@ -35,8 +33,6 @@ app.get('/', (req, res) => {
       })
       return false
     }
-    
-    
 
     usersCollection.doc(req.query.uid).get().then(usersSnapshot => {
       recipesCollection.doc(req.query.recipe).get().then(recipiesSnapshot => {
@@ -81,7 +77,9 @@ app.get('/', (req, res) => {
       })
     })
 
+  } else if(req.query.action == 'CREATEUSER') {
 
+    
 
   } else {
     res.send({
