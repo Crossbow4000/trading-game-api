@@ -99,7 +99,7 @@ app.get('/', (req, res) => {
       return false
     }
 
-    getAuth().createUser({
+    auth.createUser({
       email: req.query.email,
       password: req.query.password
     })
