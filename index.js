@@ -6,7 +6,7 @@ const firebaseApp = admin.initializeApp({
 });
 
 const firestore = admin.firestore()
-const auth      = admin.auth()
+const auth = admin.auth()
 
 const usersCollection = firestore.collection('users')
 const itemsCollection = firestore.collection('items')
@@ -98,14 +98,6 @@ app.get('/', (req, res) => {
       })
       return false
     }
-
-    auth.createUser({
-      email: req.query.email,
-      password: req.query.password
-    })
-    .then(user => {
-      console.log(user.uid, user)
-    })
 
   } else {
     res.send({
