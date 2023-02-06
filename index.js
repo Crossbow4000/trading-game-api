@@ -98,6 +98,18 @@ app.get('/', (req, res) => {
       return false
     }
 
+    admin.auth().createUser({
+      email: req.query.email,
+      password: req.query.password
+    }).then(userRecord => {
+      res.send({
+        status: 200,
+        description: "Request was recieved and processed"
+      })
+    })
+
+
+
   } else {
     res.send({
       status: 404,
