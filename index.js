@@ -1,4 +1,5 @@
 const firebase = require('firebase')
+require('firebase/auth')
 const admin = require('firebase-admin')
 const key = require('./key.json')
 const adminApp = admin.initializeApp({
