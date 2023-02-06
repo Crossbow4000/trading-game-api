@@ -1,11 +1,22 @@
+const firebase = require('firebase')
 const admin = require('firebase-admin')
 const key = require('./key.json')
-const firebaseApp = admin.initializeApp({
+const adminApp = admin.initializeApp({
   credential: admin.credential.cert(key),
   databaseURL: "https://ultimate-tag-29669-default-rtdb.firebaseio.com"
 });
+const firebaseApp = firebase.initializeApp({
+  apiKey: "AIzaSyBXM0NEzmyzAgM02cXGnX3-skmo4GL70-8",
+  authDomain: "trading--game.firebaseapp.com",
+  projectId: "trading--game",
+  storageBucket: "trading--game.appspot.com",
+  messagingSenderId: "980050881982",
+  appId: "1:980050881982:web:32247565ca0a9da18b9def",
+  measurementId: "G-JR8HQZG0QV"
+})
 
 const firestore = admin.firestore()
+const auth = firebase.auth()
 
 const usersCollection = firestore.collection('users')
 const itemsCollection = firestore.collection('items')
@@ -98,10 +109,8 @@ app.get('/', (req, res) => {
       return false
     }
 
-    admin.auth().createUser({
-      email: req.query.email,
-      password: req.query.password
-    }).then(userRecord => {
+    auth.createUserWithEmailAndPassword(req.query.email, req.query.password)
+    .then(userRecord => {
       res.send({
         status: 200,
         description: "Request was recieved and processed"
