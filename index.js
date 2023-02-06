@@ -1,4 +1,4 @@
-const firebase = require('firebase')
+const firebase = require('firebase/app')
 require('firebase/auth')
 const admin = require('firebase-admin')
 const key = require('./key.json')
