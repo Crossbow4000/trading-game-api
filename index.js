@@ -17,6 +17,8 @@ const firebaseApp = firebase.initializeApp({
   measurementId: "G-JR8HQZG0QV"
 })
 
+console.log(v4())
+
 const firestore = admin.firestore()
 const auth = firebase.auth()
 
