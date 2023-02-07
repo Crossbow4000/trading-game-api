@@ -113,16 +113,18 @@ app.get('/', (req, res) => {
 
     auth.createUserWithEmailAndPassword(req.query.email, req.query.password)
     .then(userRecord => {
-      usersCollection.doc(userRecord.uid).set({
+      usersCollection.doc(String(userRecord.uid)).set({
         username: req.query.username,
         inventory: [0, 1, 1],
         wallet: 0,
         uid: userRecord.uid,
         key: v4()
       })
-      res.send({
-        status: 200,
-        description: "Request was recieved and processed"
+      .then(response => {
+        res.send({
+          status: 200,
+          description: "Request was recieved and processed"
+        })
       })
     })
 
