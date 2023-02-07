@@ -2,6 +2,7 @@ const firebase = require('firebase/compat/app')
 require('firebase/compat/auth')
 const admin = require('firebase-admin')
 const key = require('./key.json')
+const { uuid } = require('uuidv4');
 const adminApp = admin.initializeApp({
   credential: admin.credential.cert(key),
   databaseURL: "https://ultimate-tag-29669-default-rtdb.firebaseio.com"
@@ -112,6 +113,13 @@ app.get('/', (req, res) => {
 
     auth.createUserWithEmailAndPassword(req.query.email, req.query.password)
     .then(userRecord => {
+      usersCollection.doc(userRecord.uid).set({
+        username: req.query.username,
+        inventory: [0, 1, 1],
+        wallet: 0,
+        uid: userRecord.uid,
+        key: uuid()
+      })
       res.send({
         status: 200,
         description: "Request was recieved and processed"
