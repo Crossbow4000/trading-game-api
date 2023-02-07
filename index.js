@@ -1,6 +1,5 @@
-const firebase = require('firebase/app')
-require('firebase')
-require('firebase/auth')
+const firebase = require('firebase/compat/app')
+require('firebase/compat/auth')
 const admin = require('firebase-admin')
 const key = require('./key.json')
 const adminApp = admin.initializeApp({
@@ -18,7 +17,7 @@ const firebaseApp = firebase.initializeApp({
 })
 
 const firestore = admin.firestore()
-const auth = firebase
+const auth = firebase.auth()
 
 const usersCollection = firestore.collection('users')
 const itemsCollection = firestore.collection('items')
