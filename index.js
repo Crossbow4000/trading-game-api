@@ -1,11 +1,12 @@
 const firebase = require('firebase/app')
+require('firebase')
 require('firebase/auth')
 const admin = require('firebase-admin')
 const key = require('./key.json')
 const adminApp = admin.initializeApp({
   credential: admin.credential.cert(key),
   databaseURL: "https://ultimate-tag-29669-default-rtdb.firebaseio.com"
-});
+})
 const firebaseApp = firebase.initializeApp({
   apiKey: "AIzaSyBXM0NEzmyzAgM02cXGnX3-skmo4GL70-8",
   authDomain: "trading--game.firebaseapp.com",
@@ -17,7 +18,7 @@ const firebaseApp = firebase.initializeApp({
 })
 
 const firestore = admin.firestore()
-const auth = firebase.auth()
+const auth = firebase
 
 const usersCollection = firestore.collection('users')
 const itemsCollection = firestore.collection('items')
