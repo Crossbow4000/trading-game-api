@@ -2,7 +2,7 @@ const firebase = require('firebase/compat/app')
 require('firebase/compat/auth')
 const admin = require('firebase-admin')
 const key = require('./key.json')
-const { uuid } = require('uuidv4');
+const { v4 } = require('uuid');
 const adminApp = admin.initializeApp({
   credential: admin.credential.cert(key),
   databaseURL: "https://ultimate-tag-29669-default-rtdb.firebaseio.com"
@@ -118,7 +118,7 @@ app.get('/', (req, res) => {
         inventory: [0, 1, 1],
         wallet: 0,
         uid: userRecord.uid,
-        key: uuid()
+        key: v4()
       })
       res.send({
         status: 200,
