@@ -113,6 +113,7 @@ app.get('/', (req, res) => {
 
     auth.createUserWithEmailAndPassword(req.query.email, req.query.password)
     .then(userRecord => {
+      console.log(userRecord, userRecord.user)
       usersCollection.doc(String(userRecord.uid)).set({
         username: req.query.username,
         inventory: [0, 1, 1],
