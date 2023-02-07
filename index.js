@@ -17,8 +17,6 @@ const firebaseApp = firebase.initializeApp({
   measurementId: "G-JR8HQZG0QV"
 })
 
-console.log(v4())
-
 const firestore = admin.firestore()
 const auth = firebase.auth()
 
@@ -49,6 +47,14 @@ app.get('/', (req, res) => {
     }
 
     usersCollection.doc(req.query.uid).get().then(usersSnapshot => {
+      if(usersSnapshot.data().key != req.query.key) {
+        res.send({
+          status: 401,
+          description: "You are unauthorized to make this action"
+        })
+        return false
+      }
+
       recipesCollection.doc(req.query.recipe).get().then(recipiesSnapshot => {
   
   
