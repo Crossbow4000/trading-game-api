@@ -138,6 +138,32 @@ app.get('/', (req, res) => {
 
 
 
+  } else if(req.query.action == 'REFRESH') {
+      itemsCollection.get().then(itemsSnapshot => {
+        const i = itemsSnapshot.docs.length - 1
+        usersCollection.get().then(usersSnapshot => {
+          usersSnapshot.docs.forEach((user, j) => {
+            if(!user?.inventory.length == itemsSnapshot.docs.length) {
+              let newInventory = user.inventory
+              newInventory[i] = 0
+              usersCollection.doc(user.uid).set({
+                inventory: newInventory
+              }, {merge: true})
+            }
+          })
+        })
+        recipesCollection.get().then(recipesSnapshot => {
+          recipesSnapshot.docs.forEach((recipe, j) => {
+            if(!recipe?.recipe.length == itemsSnapshot.docs.length) {
+              let newRecipe = recipe.recipe
+              newRecipe[i] = 0
+              recipesCollection.doc(recipe.id).set({
+                recipe: newRecipe
+              }, {merge: true})
+            }
+          })
+        })
+      })
   } else {
     res.send({
       status: 404,
