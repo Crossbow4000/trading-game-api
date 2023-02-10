@@ -162,6 +162,18 @@ app.get('/', (req, res) => {
         })
       })
     })
+    .then(response => {
+      res.send({
+        status: 200,
+        description: "Request was recieved and processed"
+      })
+    })
+    .catch(error => {
+      res.send({
+        status: 500,
+        description: "There was an error   :::   " + error
+      })
+    })
 } else {
     res.send({
       status: 404,
