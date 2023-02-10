@@ -142,11 +142,11 @@ app.get('/', (req, res) => {
       usersCollection.get().then(usersSnapshot => {
         usersSnapshot.docs.forEach((user, j) => {
           if(!user.inventory.length == itemsSnapshot.docs.length) {
-            // let newInventory = user.inventory
-            // newInventory[i] = 0
-            // usersCollection.doc(user.uid).set({
-            //   inventory: newInventory
-            // }, {merge: true})
+            let newInventory = user.inventory
+            newInventory[i] = 0
+            usersCollection.doc(user.uid).set({
+              inventory: newInventory
+            }, {merge: true})
           }
         })
       })
