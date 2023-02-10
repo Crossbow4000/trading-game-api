@@ -1,5 +1,5 @@
-const firebase = require('firebase/app')
-require('firebase/auth')
+const firebase = require('firebase/compat/app')
+require('firebase/compat/auth')
 const admin = require('firebase-admin')
 const key = require('./key.json')
 const { v4 } = require('uuid');
