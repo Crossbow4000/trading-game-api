@@ -138,7 +138,7 @@ app.get('/', (req, res) => {
 
   } else if(req.query.action == 'REFRESH') {
     itemsCollection.get().then(itemsSnapshot => {
-      // const i = itemsSnapshot.docs.length - 1
+      const i = itemsSnapshot.docs.length - 1
       // usersCollection.get().then(usersSnapshot => {
       //   usersSnapshot.docs.forEach((user, j) => {
       //     if(!user?.inventory.length == itemsSnapshot.docs.length) {
