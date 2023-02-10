@@ -141,6 +141,7 @@ app.get('/', (req, res) => {
       const i = itemsSnapshot.docs.length - 1
       usersCollection.get().then(usersSnapshot => {
         usersSnapshot.docs.forEach((user, j) => {
+          console.log(user.data().uid)
           if(!user.data().inventory.length == itemsSnapshot.docs.length) {
             let newInventory = user.data().inventory
             newInventory[i] = 0
@@ -155,6 +156,7 @@ app.get('/', (req, res) => {
       })
       recipesCollection.get().then(recipesSnapshot => {
         recipesSnapshot.docs.forEach((recipe, j) => {
+          console.log(recipe.data().id)
           if(!recipe.data().recipe.length == itemsSnapshot.docs.length) {
             let newRecipe = recipe.data().recipe
             newRecipe[i] = 0
