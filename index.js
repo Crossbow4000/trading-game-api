@@ -141,6 +141,7 @@ app.get('/', (req, res) => {
       const i = itemsSnapshot.docs.length - 1
       usersCollection.get().then(usersSnapshot => {
         usersSnapshot.docs.forEach((user, j) => {
+          console.log(user.inventory, itemsSnapshot.docs)
           if(!user.inventory.length == itemsSnapshot.docs.length) {
             let newInventory = user.inventory
             newInventory[i] = 0
