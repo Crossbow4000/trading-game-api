@@ -147,6 +147,9 @@ app.get('/', (req, res) => {
             usersCollection.doc(user.uid).set({
               inventory: newInventory
             }, {merge: true})
+            .then(response => {
+              console.log(user.data().uid, newInventory)
+            })
           }
         })
       })
@@ -158,6 +161,9 @@ app.get('/', (req, res) => {
             recipesCollection.doc(recipe.id).set({
               recipe: newRecipe
             }, {merge: true})
+            .then(response => {
+              console.log(recipe.data().id, newRecipe)
+            })
           }
         })
       })
