@@ -152,6 +152,7 @@ app.get('/', (req, res) => {
       })
       recipesCollection.get().then(recipesSnapshot => {
         recipesSnapshot.docs.forEach((recipe, j) => {
+          console.log(recipe.recipe, itemsSnapshot.docs)
           if(!recipe.recipe.length == itemsSnapshot.docs.length) {
             let newRecipe = recipe.recipe
             newRecipe[i] = 0
