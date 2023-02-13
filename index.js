@@ -174,6 +174,7 @@ app.get('/', (req, res) => {
                         users: usersCol,
                         recipes: recipesCol
                       })
+                      return true
                     })
                   }
                 })
