@@ -137,6 +137,8 @@ app.get('/', (req, res) => {
     })
 
   } else if(req.query.action == 'REFRESH') {
+    users = []
+    recipes = []
     itemsCollection.get().then(itemsSnapshot => {
       const i = itemsSnapshot.docs.length - 1
       usersCollection.get().then(usersSnapshot => {
@@ -149,7 +151,7 @@ app.get('/', (req, res) => {
               inventory: newInventory
             }, {merge: true})
             .then(response => {
-              console.log(user.data().uid, newInventory)
+              users.push([user.data().uid, newInventory])
             })
           }
         })
@@ -164,7 +166,7 @@ app.get('/', (req, res) => {
               recipe: newRecipe
             }, {merge: true})
             .then(response => {
-              console.log(recipe.data().id, newRecipe)
+              recipes.push([recipe.data().id, newRecipe])
             })
           }
         })
@@ -173,7 +175,9 @@ app.get('/', (req, res) => {
     .then(response => {
       res.send({
         status: 200,
-        description: "Request was recieved and processed"
+        description: "Request was recieved and processed",
+        users: users,
+        recipes: recipes
       })
     })
     .catch(error => {
