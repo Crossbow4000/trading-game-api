@@ -156,36 +156,34 @@ app.get('/', (req, res) => {
               inventory: newInventory
             }, {merge: true})
             .then(response => {
-              
+              recipesCollection.get().then(recipesSnapshot => {
+                usersCol.push([recipesSnapshot, recipesSnapshot.docs])
+                recipesSnapshot.docs.forEach((recipe, j) => {
+                  recipes.push(recipe.data().id)
+                  if(!recipe.data().recipe.length == itemsSnapshot.docs.length) {
+                    let newRecipe = recipe.data().recipe
+                    newRecipe[i] = 0
+                    recipesCollection.doc(recipe.id).set({
+                      recipe: newRecipe
+                    }, {merge: true})
+                    .then(response => {
+                      res.send({
+                        status: 200,
+                        description: "Request was recieved and processed",
+                        numItems: items,
+                        users: usersCol,
+                        recipes: recipesCol
+                      })
+                    })
+                  }
+                })
+              })
             })
           }
         })
       })
-      recipesCollection.get().then(recipesSnapshot => {
-        usersCol.push([recipesSnapshot, recipesSnapshot.docs])
-        recipesSnapshot.docs.forEach((recipe, j) => {
-          recipes.push(recipe.data().id)
-          if(!recipe.data().recipe.length == itemsSnapshot.docs.length) {
-            let newRecipe = recipe.data().recipe
-            newRecipe[i] = 0
-            recipesCollection.doc(recipe.id).set({
-              recipe: newRecipe
-            }, {merge: true})
-            .then(response => {
-              
-            })
-          }
-        })
-      })
-    })
     .then(response => {
-      res.send({
-        status: 200,
-        description: "Request was recieved and processed",
-        numItems: items,
-        users: usersCol,
-        recipes: recipesCol
-      })
+      
     })
     .catch(error => {
       res.send({
