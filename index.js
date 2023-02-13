@@ -138,12 +138,15 @@ app.get('/', (req, res) => {
 
   } else if(req.query.action == 'REFRESH') {
     users = []
+    usersCol = []
     recipes = []
+    recipesCol = []
     items = []
     itemsCollection.get().then(itemsSnapshot => {
       const i = itemsSnapshot.docs.length - 1
       items.push(itemsSnapshot.docs.length)
       usersCollection.get().then(usersSnapshot => {
+        usersCol.append([usersSnapshot, usersSnapshot.docs])
         usersSnapshot.docs.forEach((user, j) => {
           users.push(user.data().uid)
           if(!user.data().inventory.length == itemsSnapshot.docs.length) {
@@ -159,6 +162,7 @@ app.get('/', (req, res) => {
         })
       })
       recipesCollection.get().then(recipesSnapshot => {
+        usersCol.append([recipesSnapshot, recipesSnapshot.docs])
         recipesSnapshot.docs.forEach((recipe, j) => {
           recipes.push(recipe.data().id)
           if(!recipe.data().recipe.length == itemsSnapshot.docs.length) {
@@ -179,8 +183,8 @@ app.get('/', (req, res) => {
         status: 200,
         description: "Request was recieved and processed",
         numItems: items,
-        users: users,
-        recipes: recipes
+        users: usersCol,
+        recipes: recipesCol
       })
     })
     .catch(error => {
