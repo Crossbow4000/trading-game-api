@@ -145,10 +145,10 @@ app.get('/', (req, res) => {
       items.push(itemsSnapshot.docs.length)
       usersCollection.get().then(usersSnapshot => {
         usersSnapshot.docs.forEach((user, j) => {
+          users.push(user.data().uid)
           if(!user.data().inventory.length == itemsSnapshot.docs.length) {
             let newInventory = user.data().inventory
             newInventory[i] = 0
-            users.push([user.data().uid, newInventory])
             usersCollection.doc(user.uid).set({
               inventory: newInventory
             }, {merge: true})
@@ -160,10 +160,10 @@ app.get('/', (req, res) => {
       })
       recipesCollection.get().then(recipesSnapshot => {
         recipesSnapshot.docs.forEach((recipe, j) => {
+          recipes.push(recipe.data().id)
           if(!recipe.data().recipe.length == itemsSnapshot.docs.length) {
             let newRecipe = recipe.data().recipe
             newRecipe[i] = 0
-            recipes.push([recipe.data().id, newRecipe])
             recipesCollection.doc(recipe.id).set({
               recipe: newRecipe
             }, {merge: true})
