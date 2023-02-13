@@ -139,8 +139,10 @@ app.get('/', (req, res) => {
   } else if(req.query.action == 'REFRESH') {
     users = []
     recipes = []
+    items = []
     itemsCollection.get().then(itemsSnapshot => {
       const i = itemsSnapshot.docs.length - 1
+      items.push(itemsSnapshot.docs.length)
       usersCollection.get().then(usersSnapshot => {
         usersSnapshot.docs.forEach((user, j) => {
           console.log(user.data().uid)
@@ -176,6 +178,7 @@ app.get('/', (req, res) => {
       res.send({
         status: 200,
         description: "Request was recieved and processed",
+        numItems: items,
         users: users,
         recipes: recipes
       })
