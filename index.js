@@ -182,6 +182,7 @@ app.get('/', (req, res) => {
           }
         })
       })
+    })
     .then(response => {
       
     })
