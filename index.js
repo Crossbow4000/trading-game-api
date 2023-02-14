@@ -153,7 +153,7 @@ app.get('/', (req, res) => {
             for(i = 0; i < length - inventory.length; i++) {
               inventory.push(0)
             }
-            usersSnapshot.doc(userUid).set({
+            usersCollection.doc(userUid).set({
               inventory: inventory
             }, {merge: true})
             users.push([user, inventory])
