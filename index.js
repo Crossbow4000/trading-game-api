@@ -143,44 +143,13 @@ app.get('/', (req, res) => {
     recipesCol = []
     items = []
     itemsCollection.get().then(itemsSnapshot => {
-      const i = itemsSnapshot.docs.length - 1
-      items.push(itemsSnapshot.docs.length)
       usersCollection.get().then(usersSnapshot => {
-        usersCol.push([usersSnapshot, usersSnapshot.docs])
-        usersSnapshot.docs.forEach((user, j) => {
-          users.push(user.data().uid)
-          if(!user.data().inventory.length == itemsSnapshot.docs.length) {
-            let newInventory = user.data().inventory
-            newInventory[i] = 0
-            usersCollection.doc(user.uid).set({
-              inventory: newInventory
-            }, {merge: true})
-            .then(response => {
-              recipesCollection.get().then(recipesSnapshot => {
-                usersCol.push([recipesSnapshot, recipesSnapshot.docs])
-                recipesSnapshot.docs.forEach((recipe, j) => {
-                  recipes.push(recipe.data().id)
-                  if(!recipe.data().recipe.length == itemsSnapshot.docs.length) {
-                    let newRecipe = recipe.data().recipe
-                    newRecipe[i] = 0
-                    recipesCollection.doc(recipe.id).set({
-                      recipe: newRecipe
-                    }, {merge: true})
-                    .then(response => {
-                      res.send({
-                        status: 200,
-                        description: "Request was recieved and processed",
-                        numItems: items,
-                        users: usersCol,
-                        recipes: recipesCol
-                      })
-                      return true
-                    })
-                  }
-                })
-              })
-            })
-          }
+        recipesCollection.get().then(recipesSnapshot => {
+          res.send({
+            items: itemsSnapshot.docs.length,
+            users: usersSnapshot.docs.length,
+            recipes: recipesSnapshot.docs.length
+          })
         })
       })
     })
