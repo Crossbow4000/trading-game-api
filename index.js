@@ -145,10 +145,13 @@ app.get('/', (req, res) => {
     itemsCollection.get().then(itemsSnapshot => {
       usersCollection.get().then(usersSnapshot => {
         recipesCollection.get().then(recipesSnapshot => {
+          users = []
+          usersSnapshot.docs.forEach(user => {
+            user = user.data().uid
+            users.push(user)
+          })
           res.send({
-            items: itemsSnapshot.docs.length,
-            users: usersSnapshot.docs.length,
-            recipes: recipesSnapshot.docs.length
+            users: users
           })
         })
       })
