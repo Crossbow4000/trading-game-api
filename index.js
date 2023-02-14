@@ -143,12 +143,20 @@ app.get('/', (req, res) => {
     recipesCol = []
     items = []
     itemsCollection.get().then(itemsSnapshot => {
+      const length = itemsSnapshot.docs.length
       usersCollection.get().then(usersSnapshot => {
         recipesCollection.get().then(recipesSnapshot => {
           users = []
           usersSnapshot.docs.forEach(user => {
-            user = user.data().uid
-            users.push(user)
+            userUid = user.data().uid
+            inventory = user.data().inventory
+            for(i = 0; i < length - inventory.length; i++) {
+              inventory.push(0)
+            }
+            usersSnapshot.doc(userUid).set({
+              inventory: inventory
+            }, {merge: true})
+            users.push([user, inventory])
           })
           res.send({
             users: users
