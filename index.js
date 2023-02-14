@@ -165,7 +165,7 @@ app.get('/', (req, res) => {
             for(i = 0; i < length - ingredients.length; i++) {
               ingredients.push(0)
             }
-            recipesCollection.doc(recipeId).set({
+            recipesCollection.doc(String(recipeId)).set({
               recipe: ingredients
             }, {merge: true})
             recipes.push([recipe.data().id, ingredients])
