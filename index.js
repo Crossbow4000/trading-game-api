@@ -156,10 +156,23 @@ app.get('/', (req, res) => {
             usersCollection.doc(userUid).set({
               inventory: inventory
             }, {merge: true})
-            users.push([user, inventory])
+            users.push([user.data().uid, inventory])
+          })
+          recipes = []
+          recipesSnapshot.docs.forEach(recipe => {
+            recipeId = recipe.data().id
+            ingredients = recipe.data().recipe
+            for(i = 0; i < length - ingredients.length; i++) {
+              ingredients.push(0)
+            }
+            recipesCollection.doc(recipeId).set({
+              recipe: ingredients
+            }, {merge: true})
+            recipes.push([recipe.data().id, ingredients])
           })
           res.send({
-            users: users
+            users: users,
+            recipes: recipes
           })
         })
       })
