@@ -23,6 +23,7 @@ const auth = firebase.auth()
 const usersCollection = firestore.collection('users')
 const itemsCollection = firestore.collection('items')
 const recipesCollection = firestore.collection('recipes')
+const marketsCollection = firestore.collection('markets')
 
 const app = require('express')()
 
@@ -186,6 +187,16 @@ app.get('/', (req, res) => {
         description: "There was an error   :::   " + error
       })
     })
+} else if(req.query.action == 'RESET')  {
+  if(req.query.key != '!I()WFJ(!#R(UCM!PY(TOOIUMomlU*(Q3ruy190op83i0pmQU') {
+    res.send({
+      status: 401,
+      description: "You are not authorized to make this action"
+    })
+    return false
+  } else {
+
+  }
 } else {
     res.send({
       status: 404,
