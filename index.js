@@ -177,6 +177,7 @@ app.get('/', (req, res) => {
             markets = []
             if(marketsSnapshot.docs.length < length) {
               for(i = 0; i < length - marketsSnapshot.docs.length; i++) {
+                markets.push(marketsSnapshot.docs.length + i - 1)
                 marketsCollection.doc(String(marketsSnapshot.docs.length + i - 1)).set({
                   defaultPrice: 0,
                   buys: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -186,7 +187,8 @@ app.get('/', (req, res) => {
             }
             res.send({
               users: users,
-              recipes: recipes
+              recipes: recipes,
+              markets: markets
             })
           })
         })
