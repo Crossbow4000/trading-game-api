@@ -177,7 +177,7 @@ app.get('/', (req, res) => {
             markets = []
             if(marketsSnapshot.docs.length < length) {
               for(i = 0; i < length - marketsSnapshot.docs.length; i++) {
-                marketsCollection.doc(String(length - marketsSnapshot.docs.length + i)).set({
+                marketsCollection.doc(String(marketsSnapshot.docs.length + i - 1)).set({
                   defaultPrice: 0,
                   buys: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                   sells: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
