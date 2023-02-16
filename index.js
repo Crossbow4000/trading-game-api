@@ -147,33 +147,47 @@ app.get('/', (req, res) => {
       const length = itemsSnapshot.docs.length
       usersCollection.get().then(usersSnapshot => {
         recipesCollection.get().then(recipesSnapshot => {
-          users = []
-          usersSnapshot.docs.forEach(user => {
-            userUid = user.data().uid
-            inventory = user.data().inventory
-            for(i = 0; i < length - inventory.length; i++) {
-              inventory.push(0)
+          marketsCollection.get().then(marketsSnapshot => {
+            users = []
+            usersSnapshot.docs.forEach(user => {
+              userUid = user.data().uid
+              inventory = user.data().inventory
+              for(i = 0; i < length - inventory.length; i++) {
+                inventory.push(0)
+              }
+              usersCollection.doc(userUid).set({
+                inventory: inventory
+              }, {merge: true})
+              users.push([user.data().uid, inventory])
+            })
+
+            recipes = []
+            recipesSnapshot.docs.forEach(recipe => {
+              recipeId = recipe.data().id
+              ingredients = recipe.data().recipe
+              for(i = 0; i < length - ingredients.length; i++) {
+                ingredients.push(0)
+              }
+              recipesCollection.doc(String(recipeId)).set({
+                recipe: ingredients
+              }, {merge: true})
+              recipes.push([recipe.data().id, ingredients])
+            })
+
+            markets = []
+            if(marketsSnapshot.docs.length < length) {
+              for(i = 0; i < length - marketsSnapshot.docs.length; i++) {
+                marketsCollection.doc(String(length - marketsSnapshot.docs.length + i)).set({
+                  defaultPrice: 0,
+                  buys: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                  sells: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                })
+              }
             }
-            usersCollection.doc(userUid).set({
-              inventory: inventory
-            }, {merge: true})
-            users.push([user.data().uid, inventory])
-          })
-          recipes = []
-          recipesSnapshot.docs.forEach(recipe => {
-            recipeId = recipe.data().id
-            ingredients = recipe.data().recipe
-            for(i = 0; i < length - ingredients.length; i++) {
-              ingredients.push(0)
-            }
-            recipesCollection.doc(String(recipeId)).set({
-              recipe: ingredients
-            }, {merge: true})
-            recipes.push([recipe.data().id, ingredients])
-          })
-          res.send({
-            users: users,
-            recipes: recipes
+            res.send({
+              users: users,
+              recipes: recipes
+            })
           })
         })
       })
